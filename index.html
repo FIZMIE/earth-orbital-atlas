@@ -903,6 +903,64 @@ button:disabled{cursor:not-allowed;opacity:.45;}
   font-size:7px;letter-spacing:.1em;white-space:nowrap;
 }
 .dock-mark svg{width:10px;height:10px;opacity:.7;}
+.clock-zone{color:rgba(77,226,255,.8);letter-spacing:.08em;}
+.clock-eyebrow.is-sim #clockMode{color:var(--orange);}
+.clock-eyebrow.is-sim .live-dot{background:var(--orange);box-shadow:0 0 8px rgba(255,180,84,.7);}
+.timeline-dock{
+  pointer-events:auto;
+  width:100%;margin-top:5px;
+  display:flex;align-items:center;gap:8px;
+  min-height:30px;padding:4px 10px;
+  border:1px solid rgba(127,196,219,.16);
+  border-radius:9px;
+  background:linear-gradient(110deg,rgba(8,17,25,.8),rgba(5,10,16,.68));
+  box-shadow:0 12px 30px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.03);
+  backdrop-filter:blur(18px) saturate(122%);
+  -webkit-backdrop-filter:blur(18px) saturate(122%);
+}
+.timeline-kicker{
+  flex:0 0 auto;font-family:var(--font-mono);
+  font-size:7px;letter-spacing:.1em;color:var(--muted-2);
+  white-space:nowrap;
+}
+#timelineMode{color:var(--cyan);}
+.timeline-kicker.is-sim #timelineMode{color:var(--orange);}
+.timeline-date{
+  flex:0 0 auto;font-family:var(--font-mono);font-size:8px;
+  color:var(--muted-2);letter-spacing:.02em;
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+.timeline-range{
+  appearance:none;-webkit-appearance:none;
+  flex:1 1 auto;min-width:70px;height:16px;
+  margin:0;background:transparent;cursor:pointer;touch-action:none;
+}
+.timeline-range::-webkit-slider-runnable-track{
+  height:2px;border-radius:99px;
+  background:linear-gradient(90deg,rgba(77,226,255,.2),rgba(255,180,84,.62) 50%,rgba(77,226,255,.2));
+}
+.timeline-range::-webkit-slider-thumb{
+  -webkit-appearance:none;width:10px;height:10px;margin-top:-4px;
+  border-radius:50%;border:1px solid rgba(255,224,178,.9);
+  background:var(--orange);box-shadow:0 0 9px rgba(255,180,84,.65);
+}
+.timeline-range::-moz-range-track{
+  height:2px;border-radius:99px;
+  background:linear-gradient(90deg,rgba(77,226,255,.2),rgba(255,180,84,.62) 50%,rgba(77,226,255,.2));
+}
+.timeline-range::-moz-range-thumb{
+  width:9px;height:9px;border-radius:50%;border:1px solid rgba(255,224,178,.9);
+  background:var(--orange);box-shadow:0 0 9px rgba(255,180,84,.65);
+}
+.timeline-range:focus-visible{outline:1px solid var(--cyan);outline-offset:4px;}
+.timeline-now{
+  flex:0 0 auto;height:22px;padding:0 7px;
+  border:1px solid rgba(255,180,84,.25);border-radius:5px;
+  background:rgba(255,180,84,.06);color:var(--orange);
+  font-family:var(--font-ui);font-size:8px;letter-spacing:.04em;
+  white-space:nowrap;transition:background .2s,border-color .2s;
+}
+.timeline-now:hover,.timeline-now:focus-visible{background:rgba(255,180,84,.13);border-color:rgba(255,180,84,.48);}
 
 /* ---------- mobile lower navigation ---------- */
 
@@ -1195,6 +1253,12 @@ button:disabled{cursor:not-allowed;opacity:.45;}
   .speed-btn{min-width:36px;height:30px;padding:0 4px;font-size:9.5px;}
   .speed-options{padding:2px;}
   .dock-mark{display:none;}
+  .timeline-dock{min-height:30px;padding:3px 7px;gap:5px;margin-top:4px;}
+  .timeline-kicker{font-size:6.5px;letter-spacing:.06em;}
+  .timeline-kicker .scrub-long{display:none;}
+  .timeline-date{font-size:8px;}
+  .timeline-range{min-width:56px;height:22px;}
+  .timeline-now{height:24px;padding:0 6px;font-size:8px;}
   .mobile-nav{
     display:grid;grid-template-columns:1fr 1fr;align-items:stretch;
     position:fixed;left:0;right:0;bottom:0;z-index:28;
@@ -1307,6 +1371,10 @@ button:disabled{cursor:not-allowed;opacity:.45;}
   .warp-block{gap:4px;}
   .speed-btn{height:26px;min-width:30px;font-size:8.5px;padding:0 3px;}
   .speed-options{padding:1px;}
+  .timeline-dock{min-height:26px;padding:2px 8px;gap:7px;margin-top:4px;}
+  .timeline-kicker .scrub-long{display:inline;}
+  .timeline-date{font-size:7px;}
+  .timeline-now{height:20px;font-size:7.5px;padding:0 6px;}
   .mobile-nav{height:calc(48px + env(safe-area-inset-bottom));}
   .mobile-nav button{font-size:9px;gap:6px;}
   .mobile-nav svg{width:14px;height:14px;}
@@ -1341,6 +1409,10 @@ button:disabled{cursor:not-allowed;opacity:.45;}
   .clock-value{font-size:9.5px;gap:2px;}
   .speed-btn{min-width:23px;font-size:7.5px;padding:0 1px;}
   .warp-block{gap:3px;}
+  .timeline-dock{padding:3px 6px;gap:4px;}
+  .timeline-date{font-size:7.5px;}
+  .timeline-now{font-size:7.5px;padding:0 5px;}
+  .timeline-range{min-width:48px;height:22px;}
 }
 
 /* ---------- motion preferences ---------- */
@@ -1546,10 +1618,10 @@ button:disabled{cursor:not-allowed;opacity:.45;}
 
       <div class="simline">
         <div class="simline-label">
-          <span>模拟时间 / UTC</span>
-          <time id="simUtc">2026-10-27 05:30:00</time>
+          <span>模拟时间 / UTC+0</span>
+          <time id="simUtc">—</time>
         </div>
-        <span id="warpBadge" class="warp-badge">×60</span>
+        <span id="warpBadge" class="warp-badge">×1</span>
       </div>
 
       <div class="hero-stats">
@@ -1638,7 +1710,7 @@ button:disabled{cursor:not-allowed;opacity:.45;}
       </ul>
       <div class="formula-box" style="margin-top:10px">
         <p><span class="const">常数：</span>μ 398600.4418 km³/s² · R⊕ 6378.137 km · 地球自转角速度 7.2921150×10⁻⁵ rad/s · 恒星日 86164.0905 s</p>
-        <p><span class="const">参考系：</span>地心赤道惯性系（简化 J2000）· 角度单位为度 · 时间单位为 UTC</p>
+        <p><span class="const">参考系：</span>地心赤道惯性系（简化 J2000）· 角度单位为度 · 时间单位为 UTC+0</p>
       </div>
     </section>
 
@@ -1664,23 +1736,30 @@ button:disabled{cursor:not-allowed;opacity:.45;}
 <div class="bottom-dock">
   <div class="time-dock">
     <div class="clock-block">
-      <div class="clock-eyebrow"><span class="live-dot" aria-hidden="true"></span>SIMULATION CLOCK · UTC</div>
-      <div class="clock-value"><span id="utcDock">2026-10-27 05:30:00</span><span class="utc">UTC</span></div>
+      <div class="clock-eyebrow"><span class="live-dot" aria-hidden="true"></span><span id="clockMode">REAL-TIME CLOCK</span><span class="clock-zone">· UTC+0</span></div>
+      <div class="clock-value"><span id="utcDock">—</span><span class="utc">UTC+0</span></div>
     </div>
     <div class="dock-divider" aria-hidden="true"></div>
     <div class="warp-block">
       <span class="warp-label">TIME WARP / 时间流速</span>
       <div id="speedOptions" class="speed-options" role="group" aria-label="时间流速倍率">
-        <button class="speed-btn" type="button" data-speed="1" aria-pressed="false">×1</button>
-        <button class="speed-btn" type="button" data-speed="60" aria-pressed="true">×60</button>
+        <button class="speed-btn" type="button" data-speed="1" aria-pressed="true">×1</button>
+        <button class="speed-btn" type="button" data-speed="60" aria-pressed="false">×60</button>
         <button class="speed-btn" type="button" data-speed="600" aria-pressed="false">×600</button>
         <button class="speed-btn" type="button" data-speed="3600" aria-pressed="false">×3600</button>
       </div>
     </div>
     <div class="dock-mark" aria-hidden="true">
       <svg><use href="#i-lock"/></svg>
-      <span>LOCAL</span>
+      <span>OFFLINE</span>
     </div>
+  </div>
+  <div class="timeline-dock">
+    <span class="timeline-kicker"><span class="scrub-long">TIME SCRUB · </span><span id="timelineMode">LIVE</span> · UTC+0</span>
+    <span id="timelineStart" class="timeline-date">—</span>
+    <input id="timeScrub" class="timeline-range" type="range" min="-129600" max="129600" step="10" value="0" aria-label="拖动时间轴选择模拟时间">
+    <span id="timelineEnd" class="timeline-date">—</span>
+    <button id="timeNow" class="timeline-now" type="button" title="同步到当前 UTC+0 并恢复 ×1">现在</button>
   </div>
 </div>
 
@@ -1750,7 +1829,7 @@ button:disabled{cursor:not-allowed;opacity:.45;}
         <h3>假设与不做的部分</h3>
         <ul class="modal-caveats">
           <li><strong>二体近似：</strong>忽略 J₂ 摄动、大气阻力、太阳光压、第三体引力和轨道保持，因此长期位置会漂移。</li>
-          <li><strong>教学历元：</strong>模拟从 <span class="inline-formula" id="epochInline">2026-10-27 05:30:00 UTC</span> 开始；初始相位为视觉可读性设定，不是真实 TLE 外推。</li>
+          <li><strong>时间基准：</strong>页面加载时读取访问设备的当前时间，并按 UTC+0 显示；本次会话起始 <span class="inline-formula" id="epochInline">—</span>。默认以 ×1 实时推进，底部时间轴可拖动到本次会话前后约 90 天，点“现在”可重新对时；初始轨道相位仍为视觉设定，不是真实 TLE 外推。</li>
           <li><strong>球形地球：</strong>纬度、经度与离地高度按半径 6378.137 km 的球面换算，未使用椭球和大地水准面。</li>
           <li><strong>周期对照：</strong>标称周期来自公开资料，部分为四舍五入的约值；计算周期可能因半长轴取值不同出现百分之一以内的偏差。</li>
           <li><strong>探测一号口径：</strong>不同公开资料的近地点有 555 / 570 km 两种说法；本页取约 570 × 78,970 km，并标注为约值。</li>
@@ -1792,7 +1871,9 @@ button:disabled{cursor:not-allowed;opacity:.45;}
   const EARTH_OMEGA = 7.2921150e-5;   // rad / s
   const SIDEREAL_DAY = 86164.0905;    // s
   const AXIAL_TILT = 23.44 * DEG;
-  const SIM_START_MS = Date.UTC(2026, 9, 27, 5, 30, 0);
+  const SESSION_START_MS = Math.floor(Date.now() / 1000) * 1000;
+  const TIMELINE_SPAN_MS = 90 * 86400000;
+  const TIMELINE_STEP_MIN = 10;
   const SPEEDS = [1, 60, 600, 3600];
   const HOME_LON = 100;               // initial view centred on ~100°E
   const HOME_PITCH = 0.26;
@@ -1975,8 +2056,8 @@ button:disabled{cursor:not-allowed;opacity:.45;}
   ];
 
   const state = {
-    simTime: SIM_START_MS,
-    speed: 60,
+    simTime: SESSION_START_MS,
+    speed: 1,
     selected: 'tiangong',
     showAll: true,
     autoSpin: !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
@@ -1988,8 +2069,11 @@ button:disabled{cursor:not-allowed;opacity:.45;}
     logOpen: true,
     lastLogAt: 0,
     lastTelemetryAt: 0,
-    currentTabHidden: false
+    currentTabHidden: false,
+    scrubbing: false
   };
+  let timelineAnchorMs = SESSION_START_MS;
+  let timelineStopTimer = 0;
 
   /* --------------------------------------------------------------------------
      1. Small utilities
@@ -2035,6 +2119,11 @@ button:disabled{cursor:not-allowed;opacity:.45;}
   function formatClock(ms) {
     const d = new Date(ms);
     return `${pad2(d.getUTCHours())}:${pad2(d.getUTCMinutes())}:${pad2(d.getUTCSeconds())}`;
+  }
+
+  function formatMonthDay(ms) {
+    const d = new Date(ms);
+    return `${pad2(d.getUTCMonth() + 1)}-${pad2(d.getUTCDate())}`;
   }
 
   function formatLatLon(lat, lon) {
@@ -2141,7 +2230,7 @@ button:disabled{cursor:not-allowed;opacity:.45;}
   }
 
   function propagate(sat, ms) {
-    const t = (ms - SIM_START_MS) / 1000;
+    const t = (ms - SESSION_START_MS) / 1000;
     const n = sat.n;
     const M = normTau(sat.M0Rad + n * t);
     const kep = solveKepler(sat.e, M);
@@ -2240,7 +2329,7 @@ button:disabled{cursor:not-allowed;opacity:.45;}
     sat.iRad = def.i * DEG;
     if (def.fixedLon != null) {
       // Anchor the near-equatorial GEO demo at its geographic longitude.
-      const gmst0 = gmstDegrees(SIM_START_MS);
+      const gmst0 = gmstDegrees(SESSION_START_MS);
       sat.M0 = norm360(def.fixedLon + gmst0 - def.raan - def.argp);
     }
     sat.M0Rad = sat.M0 * DEG;
@@ -2493,6 +2582,12 @@ button:disabled{cursor:not-allowed;opacity:.45;}
     scaleTableBody: $('scaleTableBody'),
     epochInline: $('epochInline'),
     utcDock: $('utcDock'),
+    clockMode: $('clockMode'),
+    timeScrub: $('timeScrub'),
+    timelineStart: $('timelineStart'),
+    timelineEnd: $('timelineEnd'),
+    timelineMode: $('timelineMode'),
+    timeNow: $('timeNow'),
     speedOptions: $('speedOptions'),
     mobileTargetsBtn: $('mobileTargetsBtn'),
     mobileTelemetryBtn: $('mobileTelemetryBtn'),
@@ -2617,7 +2712,7 @@ button:disabled{cursor:not-allowed;opacity:.45;}
     if (dom.scaleBadgeCopy) {
       dom.scaleBadgeCopy.textContent = `GEO 视觉半径约为真实值的 ${geoRatio}%`;
     }
-    setText(dom.epochInline, formatUTC(SIM_START_MS) + ' UTC');
+    setText(dom.epochInline, formatUTC(state.simTime) + ' UTC+0');
   }
 
   function factCell(label, value, note, uncertain) {
@@ -3027,6 +3122,95 @@ button:disabled{cursor:not-allowed;opacity:.45;}
   function updateClockTick() {
     const text = formatUTC(state.simTime);
     setText(dom.utcDock, text);
+    setText(dom.simUtc, text);
+    updateClockMode();
+    updateTimelineUI();
+  }
+
+  function isRealtimeNow() {
+    return !state.scrubbing && state.speed === 1 &&
+      Math.abs(Date.now() - state.simTime) < 5000;
+  }
+
+  function updateClockMode() {
+    if (!dom.clockMode) return;
+    const live = isRealtimeNow();
+    setText(dom.clockMode, live ? 'REAL-TIME CLOCK' : 'SIM CLOCK');
+    if (dom.clockMode.parentElement) {
+      dom.clockMode.parentElement.classList.toggle('is-sim', !live);
+    }
+    if (dom.timelineMode) {
+      setText(dom.timelineMode, live ? 'LIVE' : 'SIM');
+      const kicker = dom.timelineMode.closest('.timeline-kicker');
+      if (kicker) kicker.classList.toggle('is-sim', !live);
+    }
+  }
+
+  function updateTimelineLabels() {
+    if (!dom.timelineStart || !dom.timelineEnd) return;
+    setText(dom.timelineStart, formatMonthDay(timelineAnchorMs - TIMELINE_SPAN_MS));
+    setText(dom.timelineEnd, formatMonthDay(timelineAnchorMs + TIMELINE_SPAN_MS));
+    if (dom.timeScrub) {
+      dom.timeScrub.min = String(-TIMELINE_SPAN_MS / 60000);
+      dom.timeScrub.max = String(TIMELINE_SPAN_MS / 60000);
+      dom.timeScrub.step = String(TIMELINE_STEP_MIN);
+      dom.timeScrub.title =
+        `${formatUTC(timelineAnchorMs - TIMELINE_SPAN_MS)} 至 ` +
+        `${formatUTC(timelineAnchorMs + TIMELINE_SPAN_MS)} UTC+0`;
+    }
+  }
+
+  function updateTimelineUI() {
+    if (!dom.timeScrub) return;
+    const halfSpan = TIMELINE_SPAN_MS;
+    if (!state.scrubbing &&
+        (state.simTime < timelineAnchorMs - halfSpan ||
+         state.simTime > timelineAnchorMs + halfSpan)) {
+      timelineAnchorMs = Math.floor(state.simTime / 60000) * 60000;
+      updateTimelineLabels();
+    }
+    if (!state.scrubbing) {
+      const minutes = clamp(
+        (state.simTime - timelineAnchorMs) / 60000,
+        -halfSpan / 60000,
+        halfSpan / 60000
+      );
+      dom.timeScrub.value = String(minutes);
+    }
+    dom.timeScrub.setAttribute('aria-valuetext', formatUTC(state.simTime) + ' UTC+0');
+  }
+
+  function commitScrub() {
+    if (!state.scrubbing) return;
+    state.scrubbing = false;
+    clearTimeout(timelineStopTimer);
+    const sat = getCurrentSat();
+    const st = propagate(sat, state.simTime);
+    updateLivePanel(sat, st);
+    updateGroundTrack(sat);
+    updateClockTick();
+    appendStatusLog(`time scrub → <span class="val">${formatUTC(state.simTime)} UTC+0</span>`);
+  }
+
+  function syncTimeNow() {
+    const now = Math.floor(Date.now() / 1000) * 1000;
+    state.scrubbing = false;
+    clearTimeout(timelineStopTimer);
+    state.simTime = now;
+    timelineAnchorMs = now;
+    state.lastInteraction = performance.now();
+    if (state.speed !== 1) {
+      state.speed = 1;
+      updateSpeedButtons();
+    }
+    setText(dom.warpBadge, '×1');
+    updateTimelineLabels();
+    const sat = getCurrentSat();
+    const st = propagate(sat, now);
+    updateLivePanel(sat, st);
+    updateGroundTrack(sat);
+    updateClockTick();
+    appendStatusLog('clock → <span class="val">NOW</span> · UTC+0 · ×1');
   }
 
   /* --------------------------------------------------------------------------
@@ -4691,6 +4875,32 @@ button:disabled{cursor:not-allowed;opacity:.45;}
       if (!btn) return;
       setSpeed(Number(btn.dataset.speed));
     });
+    if (dom.timeScrub && dom.timeNow) {
+      let rangePointerDown = false;
+      dom.timeScrub.addEventListener('pointerdown', () => {
+        rangePointerDown = true;
+        state.scrubbing = true;
+        updateClockTick();
+      });
+      dom.timeScrub.addEventListener('input', () => {
+        state.scrubbing = true;
+        state.simTime = timelineAnchorMs + Number(dom.timeScrub.value) * 60000;
+        state.lastInteraction = performance.now();
+        updateClockTick();
+        if (!rangePointerDown) {
+          clearTimeout(timelineStopTimer);
+          timelineStopTimer = window.setTimeout(commitScrub, 500);
+        }
+      });
+      dom.timeScrub.addEventListener('change', commitScrub);
+      window.addEventListener('pointerup', () => {
+        if (rangePointerDown) {
+          rangePointerDown = false;
+          commitScrub();
+        }
+      });
+      dom.timeNow.addEventListener('click', syncTimeNow);
+    }
     dom.logToggle.addEventListener('click', () => toggleLog());
     dom.infoOpen.addEventListener('click', openModal);
     dom.scaleBadge.addEventListener('click', openModal);
@@ -4766,7 +4976,9 @@ button:disabled{cursor:not-allowed;opacity:.45;}
     updateSpeedButtons();
     updatePauseButton();
     dom.showAllToggle.setAttribute('aria-checked', String(state.showAll));
-    dom.epochInline.textContent = formatUTC(SIM_START_MS) + ' UTC';
+    dom.epochInline.textContent = formatUTC(state.simTime) + ' UTC+0';
+    updateTimelineLabels();
+    updateClockTick();
     syncResponsiveState();
     updateSafeRect();
   }
@@ -4785,8 +4997,10 @@ button:disabled{cursor:not-allowed;opacity:.45;}
     const dt = clamp((ts - lastFrameTimestamp) / 1000, 0, 0.1);
     lastFrameTimestamp = ts;
 
-    // Simulation clock: fixed epoch + accelerated real time.
-    state.simTime += dt * 1000 * state.speed;
+    // Simulation clock: wall-clock epoch + accelerated real time. While the
+    // user drags the time scrubber, hold the clock so the value does not fight
+    // the pointer.
+    if (!state.scrubbing) state.simTime += dt * 1000 * state.speed;
     updateCamera(dt, ts);
     cameraBasis = getCameraBasis();
 
@@ -4859,6 +5073,8 @@ button:disabled{cursor:not-allowed;opacity:.45;}
 
       setBootStatus('校准轨道与时间基准 / SOLVE ORBITS');
       await rafTick();
+      state.simTime = Math.floor(Date.now() / 1000) * 1000;
+      timelineAnchorMs = state.simTime;
       initialiseUI();
       attachEvents();
 
